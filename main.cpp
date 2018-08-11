@@ -5,6 +5,7 @@
  */
 
 #include <iostream>
+#include <string>
 #include <cstring>
 
 using namespace std;
@@ -12,9 +13,12 @@ using namespace std;
 void command_loop()
 {
 	bool exit = false;
+	char line[256];
 	while (exit == false)
 	{
-
+		cout << "Name@Home >" << flush;
+		cin.getline(line,256);
+		cout << line << endl;
 	}
 }
 
