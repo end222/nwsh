@@ -1,7 +1,6 @@
 /*
- *
- *
- *
+ * nwsh
+ * By end222
  */
 
 #include <iostream>
@@ -16,7 +15,7 @@ void command_loop()
 	char line[256];
 	while (exit == false)
 	{
-		cout << "Name@Home >" << flush;
+		cout << "Name@Home > " << flush;
 		cin.getline(line,256);
 		cout << line << endl;
 	}
