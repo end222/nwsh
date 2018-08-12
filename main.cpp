@@ -16,6 +16,15 @@
 
 using namespace std;
 
+char bin[20] = "/bin";
+char *path[10] = {bin};
+char *args[10];
+
+void read_config()
+{
+
+}
+
 string exec(const char* cmd) {
 	array<char, 128> buffer;
 	string result;
@@ -28,13 +37,11 @@ string exec(const char* cmd) {
 	return result;
 }
 
+
 void command_loop()
 {
 	bool exit = false;
 	char line[256];
-	char bin[20] = "/bin";
-	char *path[10] = {bin};
-	char *args[10];
 
 	string system_name = exec("hostname");
 	string user_name = exec("whoami");
@@ -93,6 +100,7 @@ int main(int argc, char *argv[])
 	}
 	else
 	{
+		read_config();
 		command_loop();
 	}
 }
