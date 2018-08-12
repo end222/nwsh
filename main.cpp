@@ -8,22 +8,20 @@
 #include <cstring>
 #include <memory>
 #include <array>
+#include <fstream>
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <sys/wait.h>
 
+#include "modules/favs.hpp"
+
 using namespace std;
 
-char bin[20] = "/bin";
-char *path[10] = {bin};
+char *path[10];
+int path_dirs = 0;
 char *args[10];
-
-void read_config()
-{
-
-}
 
 string exec(const char* cmd) {
 	array<char, 128> buffer;
@@ -37,6 +35,20 @@ string exec(const char* cmd) {
 	return result;
 }
 
+void read_config()
+{
+	char line[100];
+	ifstream config_file;
+	string home = exec("echo ~");
+	home.erase(home.length()-1);
+	string config_location = home + "/.nwshrc";
+	config_file.open(config_location);
+	while (!config_file.eof())
+	{
+		config_file.getline(line, 100);
+		cout << line << endl;
+	}
+}
 
 void command_loop()
 {
