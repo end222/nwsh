@@ -1,6 +1,7 @@
 /*
  * nwsh
  * By end222
+ * File: main.cpp
  */
 
 #include <iostream>
@@ -19,8 +20,7 @@
 
 using namespace std;
 
-char *path[10];
-int path_dirs = 0;
+variables vars[100];
 char *args[10];
 
 string exec(const char* cmd) {
@@ -42,11 +42,28 @@ void read_config()
 	string home = exec("echo ~");
 	home.erase(home.length()-1);
 	string config_location = home + "/.nwshrc";
+
 	config_file.open(config_location);
+	config_file.getline(line, 100);
 	while (!config_file.eof())
 	{
-		config_file.getline(line, 100);
 		cout << line << endl;
+		int i = 0;
+		const char s[2] = " ";
+		char* token;
+		token = strtok(line, s);
+		while (token != NULL)
+		{
+			args[i] = token;
+			token = strtok(NULL, s);
+			i++;
+		}
+		if (!strcmp(args[0], "addtopath"))
+		{
+			path[path_dirs] = args[1];
+			path_dirs++;
+		}
+		config_file.getline(line, 100);
 	}
 }
 
@@ -98,6 +115,9 @@ void command_loop()
 
 int main(int argc, char *argv[])
 {
+	char path[] = "PATH";
+	variables[0][0] = path;
+	variables[0][1] = 0;
 	if (argc > 1)
 	{
 		if (!strcmp(argv[1],"-h") || !strcmp(argv[1],"--help"))

@@ -13,3 +13,4 @@ install:
 clean:
 	rm -rf nwsh
 	rm -rf *.o
+	rm -rf */*.gch
