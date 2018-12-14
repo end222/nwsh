@@ -20,8 +20,9 @@
 
 using namespace std;
 
-variables vars[100];
+char *vars[100];
 char *args[10];
+char *path[100];
 
 string exec(const char* cmd) {
 	array<char, 128> buffer;
@@ -35,9 +36,14 @@ string exec(const char* cmd) {
 	return result;
 }
 
+
+/*
+ * Read NWSH configuration file, which is located in ~/.nwshrc
+ */
 void read_config()
 {
 	char line[100];
+	int path_dirs = 0;
 	ifstream config_file;
 	string home = exec("echo ~");
 	home.erase(home.length()-1);
@@ -45,8 +51,17 @@ void read_config()
 
 	config_file.open(config_location);
 	config_file.getline(line, 100);
+
+	// TODO: remove, just for debug
+	cout << "Reading config files..." << endl;
+
+	/*
+	 * Read config file, line to line
+	 * and apply configurations
+	 */
 	while (!config_file.eof())
 	{
+		// TODO: remove, just for debug
 		cout << line << endl;
 		int i = 0;
 		const char s[2] = " ";
@@ -65,6 +80,8 @@ void read_config()
 		}
 		config_file.getline(line, 100);
 	}
+	// TODO: remove, just for debug
+	cout << "Finished reading config files..." << endl;
 }
 
 void command_loop()
@@ -115,16 +132,13 @@ void command_loop()
 
 int main(int argc, char *argv[])
 {
-	char path[] = "PATH";
-	variables[0][0] = path;
-	variables[0][1] = 0;
 	if (argc > 1)
 	{
 		if (!strcmp(argv[1],"-h") || !strcmp(argv[1],"--help"))
 		{
 			cout << "Help page" << endl;
 		}
-		else if (argv[1] == "-v" || argv[1] == "--version")
+		else if (!strcmp(argv[1], "-v") || !strcmp(argv[1], "--version"))
 		{
 			cout << "Nwsh Alpha 0.1a" << endl;
 			cout << "By end222" << endl;
@@ -132,7 +146,7 @@ int main(int argc, char *argv[])
 	}
 	else
 	{
-		read_config();
+//		read_config();
 		command_loop();
 	}
 }
