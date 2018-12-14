@@ -5,11 +5,10 @@
  */
 
 #include <iostream>
-#include <string>
-#include <cstring>
 #include <memory>
 #include <array>
 #include <fstream>
+#include <cstring>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -17,6 +16,7 @@
 #include <sys/wait.h>
 
 #include "modules/favs.hpp"
+#include "themes/themes.hpp"
 
 using namespace std;
 
@@ -146,7 +146,7 @@ int main(int argc, char *argv[])
 	}
 	else
 	{
-//		read_config();
+		read_config();
 		command_loop();
 	}
 }
