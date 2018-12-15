@@ -25,8 +25,26 @@ void themes::printTheme(string hostname, string username, string directory)
 			cout << paintText("> ", color[0]) << flush;
 			break;
 		case 2:
-			cout << paintText(username, color[0]) << paintText(" at ", color[1]) << paintText(hostname, color[2]) << paintText(" > ", color[3]) << flush;
-			break;
+			{
+				// Shorten the directory string to the last directory
+				// in order to get a more minimal theme
+				int iterator = 0;
+				const char s[2] = "/";
+				char* token;
+				string shortenedDir;
+				char directoryChar[1024];
+				strcpy(directoryChar, directory.c_str());
+				// Split the string and get the last directory
+				token = strtok(directoryChar, s);
+				while (token != NULL)
+				{
+					shortenedDir = token;
+					token = strtok(NULL, s);
+				}
+				cout << paintText(username, color[0]) << paintText(" at ", color[1]) << paintText(hostname, color[2]) << " " << paintText(shortenedDir, color[3]) << paintText(" > ", color[4]) << flush;
+				break;
+			}
+
 		default:
 			cout << "No theme format detected > " << flush;
 	}

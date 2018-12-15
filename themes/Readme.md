@@ -9,12 +9,58 @@ Format and colors are totally independent, so choosing a determinate format does
 
 ## Formats
 There are several formats to choose from in Nwsh, which are indentified by numbers.
-TO BE UPDATED
+* Format 0:
+`username@hostname directory >`
+
+Being:
+
+Username -> Element 0
+'@' -> Element 1
+Hostname -> Element 2
+Directory -> Element 3
+'>' -> Element 4
+
+* Format 1:
+`>`
+
+Being:
+'>' -> Element 0
+
+* Format 2:
+`username at hostname directory >`
+
+Being:
+
+Username -> Element 0
+at -> Element 1
+Hostname -> Element 2
+Directory -> Element 3
+'>' -> Element 4
+
+In this case the directory will only show as the name of the last directory in pwd. For example if the current diretory is /home/user/Docs, the directory will appear as Docs. This is to maintain a cleaner style, with less information, but still maintaining a reference to the current directory.
 
 ## Colors
-There are 16 colors available in Nwsh, also identified by numbers.
-TO BE UPDATED
+There are 16 colors available in Nwsh, also identified by numbers:
+ * 0: Black
+ * 1: Red
+ * 2: Green
+ * 3: Yellow
+ * 4: Blue
+ * 5: Magenta
+ * 6: Cyan
+ * 7: Light Gray
+ * 8: Dark Gray
+ * 9: Light Red
+ * 10: Light Green
+ * 11: Light Yellow
+ * 12: Light Blue
+ * 13: Light Magenta
+ * 14: Light Cyan
+ * 15: White
 
 ## How can I customize my prompt?
+In order to customize it you will have to edit the file located in ~/.nwshrc. There you can choose one format from the ones above using:
+`theme numOfFormat`
 
-
+You can then choose the colors of each one of the element that compose the format by using:
+`color numOfElement numOfColor`
