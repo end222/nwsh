@@ -100,6 +100,7 @@ void command_loop()
 {
 	bool exit = false;
 	char line[256];
+	char buffer[256];
 
 	string system_name = exec("hostname");
 	string user_name = exec("whoami");
@@ -108,7 +109,8 @@ void command_loop()
 
 	while (exit == false)
 	{
-		appearance.printTheme(system_name, user_name);
+		getcwd(buffer, sizeof(buffer));
+		appearance.printTheme(system_name, user_name, buffer);
 		cin.getline(line,256);
 		if (!strcmp(line,"exit"))
 		{
@@ -116,29 +118,36 @@ void command_loop()
 		}
 		else
 		{
-			int status;
-			pid_t pid, wait_pid;
-			if ((pid = fork()) == 0) // Child
+			char *args[10];
+			int i = 0;
+			const char s[2] = " ";
+			char* token;
+			token = strtok(line, s);
+			while (token != NULL)
 			{
-				char *args[10];
-				int i = 0;
-				const char s[2] = " ";
-				char* token;
-				token = strtok(line, s);
-				while (token != NULL)
-				{
-					args[i] = token;
-					token = strtok(NULL, s);
-					i++;
-				}
-				args[i] = NULL;
-				execvpe(args[0],args,path);
+				args[i] = token;
+				token = strtok(NULL, s);
+				i++;
 			}
-			else // Parent
+			args[i] = NULL;
+			if(!strcmp(args[0], "cd"))
 			{
-				do {
-					wait_pid = waitpid(pid, &status, WUNTRACED);
-				} while (!WIFEXITED(status) && !WIFSIGNALED(status));
+				chdir(args[1]);
+			}
+			else
+			{
+				int status;
+				pid_t pid, wait_pid;
+				if ((pid = fork()) == 0) // Child
+				{
+					execvpe(args[0],args,path);
+				}
+				else // Parent
+				{
+					do {
+						wait_pid = waitpid(pid, &status, WUNTRACED);
+					} while (!WIFEXITED(status) && !WIFSIGNALED(status));
+				}
 			}
 		}
 	}

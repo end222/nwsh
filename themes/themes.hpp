@@ -18,7 +18,7 @@ class themes
 
 	public:
 		themes();
-		void printTheme(string hostname, string username);
+		void printTheme(string hostname, string username, string directory);
 		void setTheme(int themeNum);
 		void changeColor(int colorNum, int value);
 };
