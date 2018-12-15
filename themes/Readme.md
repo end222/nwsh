@@ -13,38 +13,27 @@ There are several formats to choose from in Nwsh, which are indentified by numbe
 `username@hostname directory >`
 
 Being:
-
-Username -> Element 0
-
-'@' -> Element 1
-
-Hostname -> Element 2
-
-Directory -> Element 3
-
-'>' -> Element 4
+0. Username
+1. '@'
+2. Hostname
+3. Directory
+4. '>'
 
 ### Format 1:
 `>`
 
 Being:
-
-'>' -> Element 0
+0. '>'
 
 ### Format 2:
 `username at hostname directory >`
 
 Being:
-
-Username -> Element 0
-
-at -> Element 1
-
-Hostname -> Element 2
-
-Directory -> Element 3
-
-'>' -> Element 4
+0. Username
+1. at
+2. Hostname
+3. Directory
+4. '>'
 
 In this case the directory will only show as the name of the last directory in pwd. For example if the current diretory is /home/user/Docs, the directory will appear as Docs. This is to maintain a cleaner style, with less information, but still maintaining a reference to the current directory.
 
