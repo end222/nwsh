@@ -13,6 +13,7 @@ There are several formats to choose from in Nwsh, which are indentified by numbe
 `username@hostname directory >`
 
 Being:
+
 0. Username
 1. '@'
 2. Hostname
@@ -23,12 +24,14 @@ Being:
 `>`
 
 Being:
+
 0. '>'
 
 ### Format 2:
 `username at hostname directory >`
 
 Being:
+
 0. Username
 1. at
 2. Hostname
