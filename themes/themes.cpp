@@ -22,10 +22,10 @@ void themes::printTheme(string hostname, string username)
 			cout << paintText(username, color[0]) << paintText("@", color[1]) << paintText(hostname, color[2]) << paintText(" > ", color[3]) << flush;
 			break;
 		case 1:
-			cout << "> " << flush;
+			cout << paintText("> ", color[0]) << flush;
 			break;
 		case 2:
-			cout << username << " at " << hostname << " > " << flush;
+			cout << paintText(username, color[0]) << paintText(" at ", color[1]) << paintText(hostname, color[2]) << paintText(" > ", color[3]) << flush;
 			break;
 		default:
 			cout << "No theme format detected > " << flush;

@@ -1,6 +1,6 @@
 addtopath /bin
 addtopath /usr/bin
-theme 0
+theme 2
 color 0 5
 color 1 7
 color 2 3
