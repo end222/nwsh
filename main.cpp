@@ -21,8 +21,8 @@
 using namespace std;
 
 char *vars[100];
-char *args[10];
 char *path[100];
+themes appearance;
 
 string exec(const char* cmd) {
 	array<char, 128> buffer;
@@ -42,6 +42,7 @@ string exec(const char* cmd) {
  */
 void read_config()
 {
+	char *args[10];
 	char line[100];
 	int path_dirs = 0;
 	ifstream config_file;
@@ -73,10 +74,21 @@ void read_config()
 			token = strtok(NULL, s);
 			i++;
 		}
+		args[i] = NULL;
+		// Add a directory to the path
 		if (!strcmp(args[0], "addtopath"))
 		{
 			path[path_dirs] = args[1];
 			path_dirs++;
+		}
+		// Change the theme of the shell
+		else if(!strcmp(args[0], "theme"))
+		{
+			appearance.setTheme(atoi(args[1]));
+		}
+		else if(!strcmp(args[0], "color"))
+		{
+			appearance.changeColor(atoi(args[1]), atoi(args[2]));
 		}
 		config_file.getline(line, 100);
 	}
@@ -96,7 +108,7 @@ void command_loop()
 
 	while (exit == false)
 	{
-		cout << user_name << " at " << system_name << " ~ " << flush;
+		appearance.printTheme(system_name, user_name);
 		cin.getline(line,256);
 		if (!strcmp(line,"exit"))
 		{
@@ -108,6 +120,7 @@ void command_loop()
 			pid_t pid, wait_pid;
 			if ((pid = fork()) == 0) // Child
 			{
+				char *args[10];
 				int i = 0;
 				const char s[2] = " ";
 				char* token;
@@ -118,7 +131,8 @@ void command_loop()
 					token = strtok(NULL, s);
 					i++;
 				}
-				execvpe(line,args,path);
+				args[i] = NULL;
+				execvpe(args[0],args,path);
 			}
 			else // Parent
 			{

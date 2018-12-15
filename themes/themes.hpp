@@ -1,5 +1,5 @@
-#ifndef FAVS_HPP
-#define FAVS_HPP
+#ifndef THEMES_HPP
+#define THEMES_HPP
 
 #include <iostream>
 #include <cstring>
@@ -13,13 +13,13 @@ using namespace std;
 class themes
 {
 	private:
-		string theme_format;
-		int color1;
-		int color2;
+		int theme_format;
+		int color[10] = {15,15,15,15,15};
 
 	public:
 		themes();
-		void printTheme();
+		void printTheme(string hostname, string username);
+		void setTheme(int themeNum);
 		void changeColor(int colorNum, int value);
 };
 #endif

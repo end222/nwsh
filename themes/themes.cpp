@@ -5,21 +5,39 @@
  */
 
 #include "themes.hpp"
+#include "../modules/colors.hpp"
 
 using namespace std;
 
 themes::themes()
 {
-	theme_format = "oldschool";
-	color1 = 15;
-	color2 = 15;
+	theme_format = 0;
 }
 
-void printTheme(string hostname, string username)
+void themes::printTheme(string hostname, string username)
 {
+	switch(theme_format)
+	{
+		case 0:
+			cout << paintText(username, color[0]) << paintText("@", color[1]) << paintText(hostname, color[2]) << paintText(" > ", color[3]) << flush;
+			break;
+		case 1:
+			cout << "> " << flush;
+			break;
+		case 2:
+			cout << username << " at " << hostname << " > " << flush;
+			break;
+		default:
+			cout << "No theme format detected > " << flush;
+	}
 }
 
-void changeColor(int colorNum, int value)
+void themes::setTheme(int themeNumber)
 {
+	theme_format = themeNumber;
+}
 
+void themes::changeColor(int colorNum, int value)
+{
+	color[colorNum] = value;
 }
