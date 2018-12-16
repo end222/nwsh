@@ -20,6 +20,9 @@ void add_fav(char* fav)
 void list_all_fav()
 {
 	int i = 0;
+	cout << "Favorite commands: " << endl;
+	cout << "------------------ " << endl;
+	cout << "Feature not yet implemented :P" << endl;
 	while (i < fav_number)
 	{
 		cout << i << " - "  << fav_commands[i] << endl;

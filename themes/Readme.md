@@ -64,6 +64,14 @@ In order to customize it you will have to edit the file located in ~/.nwshrc. Th
 
 `theme numOfFormat`
 
+or
+
+`:t numOfFormat`
+
 You can then choose the colors of each one of the element that compose the format by using:
 
 `color numOfElement numOfColor`
+
+or
+
+`:c numOfElement numOfColor`

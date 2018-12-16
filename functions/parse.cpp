@@ -7,6 +7,7 @@
 #include "parse.hpp"
 #include "../themes/themes.hpp"
 #include "../modules/colors.hpp"
+#include "../modules/builtin.hpp"
 
 using namespace std;
 
@@ -19,6 +20,8 @@ bool exitShell()
 
 void parseLine(char* line, themes& appearance, char** path)
 {
+	char command[200];
+	strcpy(command, line); // Copy of line, just in case it is needed after having used strtok
 	int i = 0;
 	const char s[2] = " ";
 	char* token;
@@ -44,9 +47,13 @@ void parseLine(char* line, themes& appearance, char** path)
 	{
 		chdir(args[1]);
 	}
-	else if(!strcmp(args[0], "exit") || (!strcmp(args[0], "bye")))
+	else if(!strcmp(args[0], "exit") || (!strcmp(args[0], "bye")) || (!strcmp(args[0], ":q")))
 	{
 		exit_shell = true;
+	}
+	else if(args[0][0] == ':')
+	{
+		parseBuiltin(command, appearance);
 	}
 	else
 	{
