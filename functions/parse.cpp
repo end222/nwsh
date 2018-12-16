@@ -6,6 +6,7 @@
 
 #include "parse.hpp"
 #include "../themes/themes.hpp"
+#include "../modules/colors.hpp"
 
 using namespace std;
 
@@ -43,7 +44,7 @@ void parseLine(char* line, themes& appearance, char** path)
 	{
 		chdir(args[1]);
 	}
-	else if(!strcmp(args[0], "exit"))
+	else if(!strcmp(args[0], "exit") || (!strcmp(args[0], "bye")))
 	{
 		exit_shell = true;
 	}
@@ -54,6 +55,8 @@ void parseLine(char* line, themes& appearance, char** path)
 		if ((pid = fork()) == 0) // Child
 		{
 			execvpe(args[0],args,path);
+			cout << "Nwsh " << paintText("Error", 9) << ": command " << args[0] << " not recognized" << endl; 
+			exit(0);
 		}
 		else // Parent
 		{

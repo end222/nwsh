@@ -55,7 +55,7 @@ void read_config()
 void command_loop()
 {
 	char line[256];
-	char buffer[256];
+	char buffer[256]; // To store the path of the current directory
 
 	string system_name = exec("hostname");
 	string user_name = exec("whoami");
@@ -78,11 +78,12 @@ int main(int argc, char *argv[])
 	{
 		if (!strcmp(argv[1],"-h") || !strcmp(argv[1],"--help"))
 		{
-			cout << "Help page" << endl;
+			cout << "nwsh -v | --version: show information about the version of Nwsh" << endl;
+			cout << "nwsh -h | --help: show this help page" << endl;
 		}
 		else if (!strcmp(argv[1], "-v") || !strcmp(argv[1], "--version"))
 		{
-			cout << "Nwsh Alpha 0.1a" << endl;
+			cout << "Nwsh Alpha 0.1b" << endl;
 			cout << "By end222" << endl;
 		}
 	}
