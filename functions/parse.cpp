@@ -1,3 +1,9 @@
+/*
+ * nwsh
+ * By end222
+ * File: parse.cpp
+ */
+
 #include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
@@ -34,14 +40,30 @@ void parseLine(char* line, themes& appearance, char** path)
 		i++;
 	}
 	args[i] = NULL;
+	// Line is commented
+	if(args[0][0] == '#');
 	// Change the theme of the shell
-	if(!strcmp(args[0], "theme"))
+	else if(!strcmp(args[0], "theme"))
 	{
-		appearance.setTheme(atoi(args[1]));
+		if(args[1] == NULL)
+		{
+			cout << "Usage: theme numTheme" << endl;
+		}
+		else
+		{
+			appearance.setTheme(atoi(args[1]));
+		}
 	}
 	else if(!strcmp(args[0], "color"))
 	{
-		appearance.changeColor(atoi(args[1]), atoi(args[2]));
+		if(args[1] == NULL || args[2] == NULL)
+		{
+			cout << "Usage: color numElement numColor" << endl;
+		}
+		else
+		{
+			appearance.changeColor(atoi(args[1]), atoi(args[2]));
+		}
 	}
 	else if(!strcmp(args[0], "cd"))
 	{

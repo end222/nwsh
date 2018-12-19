@@ -24,11 +24,25 @@ void parseBuiltin(char* line, themes& appearance)
 	args[i] = NULL;
 	if(!strcmp(args[0], ":c"))
 	{
-		appearance.changeColor(atoi(args[1]), atoi(args[2]));
+		if(args[1] == NULL || args[2] == NULL)
+		{
+			cout << "Usage: :c numElement numColors" << endl;
+		}
+		else
+		{
+			appearance.changeColor(atoi(args[1]), atoi(args[2]));
+		}
 	}
 	else if(!strcmp(args[0], ":t"))
 	{
-		appearance.setTheme(atoi(args[1]));
+		if(args[1] == NULL)
+		{
+			cout << "Usage: :t numTheme" << endl;
+		}
+		else
+		{
+			appearance.setTheme(atoi(args[1]));
+		}
 	}
 	else if(!strcmp(args[0], ":f"))
 	{

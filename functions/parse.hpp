@@ -1,3 +1,9 @@
+/*
+ * nwsh
+ * By end222
+ * File: parse.hpp
+ */
+
 #ifndef PARSE_HPP
 #define PARSE_HPP
 
