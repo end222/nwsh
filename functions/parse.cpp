@@ -75,7 +75,7 @@ void parseLine(char* line, themes& appearance, char** path)
 	}
 	else if(args[0][0] == ':')
 	{
-		parseBuiltin(command, appearance);
+		parseBuiltin(command, appearance, path);
 	}
 	else
 	{

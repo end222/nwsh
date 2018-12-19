@@ -1,12 +1,20 @@
 /*
- *
+ * nwsh
+ * By end222
+ * File: modules/favs.hpp
  */
 
 #ifndef FAVS_HPP
 #define FAVS_HPP
 
+#include "../themes/themes.hpp"
+#include "builtin.hpp"
+#include "../functions/parse.hpp"
+
 void add_fav(char* fav);
 
 void list_all_fav();
+
+void exec_fav(int commandNum, themes appearance, char** path);
 
 #endif

@@ -8,7 +8,7 @@
 
 using namespace std;
 
-void parseBuiltin(char* line, themes& appearance)
+void parseBuiltin(char* line, themes& appearance, char** path)
 {
 	int i = 0;
 	const char s[2] = " ";
@@ -51,5 +51,9 @@ void parseBuiltin(char* line, themes& appearance)
 	else if(!strcmp(args[0], ":af"))
 	{
 		add_fav(args[1]);
+	}
+	else if(!strcmp(args[0], ":ef"))
+	{
+		exec_fav(atoi(args[1]), appearance, path);
 	}
 }

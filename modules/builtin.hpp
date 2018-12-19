@@ -3,6 +3,6 @@
 
 #include "../themes/themes.hpp"
 
-void parseBuiltin(char* line, themes& appearance);
+void parseBuiltin(char* line, themes& appearance, char** path);
 
 #endif
