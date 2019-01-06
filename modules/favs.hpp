@@ -11,7 +11,7 @@
 #include "builtin.hpp"
 #include "../functions/parse.hpp"
 
-void add_fav(char* fav);
+void add_fav(const char* fav);
 
 void list_all_fav();
 

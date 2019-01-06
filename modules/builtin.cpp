@@ -50,7 +50,16 @@ void parseBuiltin(char* line, themes& appearance, char** path)
 	}
 	else if(!strcmp(args[0], ":af"))
 	{
-		add_fav(args[1]);
+		// Concat args to get the whole command together
+		string completeCommand = args[1];
+		i = 2;
+		while(args[i] != NULL)
+		{
+			completeCommand = completeCommand + " " + args[i];
+			i++;
+		}
+
+		add_fav(completeCommand.c_str());
 	}
 	else if(!strcmp(args[0], ":ef"))
 	{

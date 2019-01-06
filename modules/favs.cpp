@@ -11,7 +11,7 @@ char fav_commands[100][100];
 int fav_number = 0;
 
 using namespace std; 
-void add_fav(char* fav)
+void add_fav(const char* fav)
 {
 	strcpy(fav_commands[fav_number], fav);
 	fav_number++;
