@@ -65,7 +65,6 @@ void command_loop()
 	// Close the shell when exitShell() equals true
 	while (exitShell() == false)
 	{
-		getcwd(buffer, sizeof(buffer));
 		appearance.printTheme(system_name, user_name, buffer);
 		cin.getline(line,256);
 		parseLine(line, appearance, path);

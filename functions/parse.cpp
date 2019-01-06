@@ -67,7 +67,11 @@ void parseLine(char* line, themes& appearance, char** path)
 	}
 	else if(!strcmp(args[0], "cd"))
 	{
-		chdir(args[1]);
+		int returnCode = chdir(args[1]);
+		if(returnCode != 0)
+		{
+			cout << "Unexpected error ocurred, error code: " << returnCode << endl;
+		}
 	}
 	else if(!strcmp(args[0], "exit") || (!strcmp(args[0], "bye")) || (!strcmp(args[0], ":q")))
 	{

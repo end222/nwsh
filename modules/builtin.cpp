@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include "builtin.hpp"
+#include "../modules/colors.hpp"
 #include "../themes/themes.hpp"
 #include "favs.hpp"
 
@@ -64,5 +65,9 @@ void parseBuiltin(char* line, themes& appearance, char** path)
 	else if(!strcmp(args[0], ":ef"))
 	{
 		exec_fav(atoi(args[1]), appearance, path);
+	}
+	else
+	{
+		cout << "Nwsh " << paintText("Error", 9) << ": command " << args[0] << " not recognized" << endl;
 	}
 }
