@@ -1,4 +1,5 @@
 #include "colors.hpp"
+#include <cstring>
 
 using namespace std;
 
