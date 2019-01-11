@@ -6,27 +6,56 @@
 
 #include "favs.hpp"
 #include <iostream>
+#include <fstream>
+
+#include "../functions/exec.hpp"
 
 char fav_commands[100][100];
 int fav_number = 0;
 
 using namespace std; 
+
+/*
+ * Adds the command fav as favorite command
+ * params: fav (const char*): command to add
+ */
+
 void add_fav(const char* fav)
 {
 	strcpy(fav_commands[fav_number], fav);
 	fav_number++;
+	write_favorites();
 }
 
+
+/*
+ * Removes a favorite command from the list
+ * params: number (int): position of the command to be removed
+ *
+ * Restrictions:
+ * 0 =< number <= fav_number - 1
+ */
 void remove_fav(int number)
 {
-	while(number < fav_number)
+	if(number < 0 || number >= fav_number)
 	{
-		strcpy(fav_commands[number-1], fav_commands[number]);
-		number++;
+		cout << "There is no command at position: " << number << endl;
 	}
-	fav_number--;
+	else
+	{
+		while(number < fav_number)
+		{
+			strcpy(fav_commands[number-1], fav_commands[number]);
+			number++;
+		}
+		fav_number--;
+	}
 }
 
+
+/*
+ * Lists all the commands in the favorites list
+ */
 void list_all_fav()
 {
 	int i = 0;
@@ -39,7 +68,46 @@ void list_all_fav()
 	}
 }
 
+
+/*
+ * Executes a favorite command
+ * params: commandNum (int): position of the command
+ * appearance (themes): themes instance needed if the theme is going to be changed
+ * path (char**)
+ *
+ * Restrictions:
+ * 0 <= commandNum <= fav_number - 1
+ */
 void exec_fav(int commandNum, themes appearance, char** path)
 {
-	parseLine(fav_commands[commandNum], appearance, path);
+	if(commandNum < 0 || commandNum >= fav_number)
+	{
+		cout << "There is no command at position: " << commandNum << endl;
+	}
+	else
+	{
+		parseLine(fav_commands[commandNum], appearance, path);
+	}
+}
+
+/*
+ * Writes the favorite command list to a config file
+ * located in ~/.config/nwsh/favorites.conf
+ */
+
+void write_favorites()
+{
+	fstream file;
+	string home = exec("echo ~");
+	home.erase(home.length()-1);
+	string favs_location = home + "/.config/nwsh/favorites.conf";
+	// Open the file this way to erase its content
+	// because it will be written again from scratch with the updated favorites
+	file.open(favs_location, std::ofstream::out | std::ofstream::trunc);
+	int i = 0;
+	while(i < fav_number)
+	{
+		file << fav_commands[i] << endl;
+		i++;
+	}
 }

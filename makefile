@@ -24,6 +24,8 @@ builtin.o: modules/builtin.hpp modules/builtin.cpp
 install:
 	sudo cp nwsh /usr/bin/nwsh
 	cp etc/nwshrc ~/.nwshrc
+	mkdir -p ~/.config/nwsh
+	touch ~/.config/nwsh/favorites.conf
 
 clean:
 	rm -rf nwsh
