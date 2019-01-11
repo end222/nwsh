@@ -19,11 +19,12 @@ void add_fav(const char* fav)
 
 void remove_fav(int number)
 {
-	while(number < fav_number - 1)
+	while(number < fav_number)
 	{
-		strcpy(fav_commands[number], fav_commands[number + 1]);
+		strcpy(fav_commands[number-1], fav_commands[number]);
 		number++;
 	}
+	fav_number--;
 }
 
 void list_all_fav()

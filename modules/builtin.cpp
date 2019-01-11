@@ -66,6 +66,10 @@ void parseBuiltin(char* line, themes& appearance, char** path)
 	{
 		exec_fav(atoi(args[1]), appearance, path);
 	}
+	else if(!strcmp(args[0], ":rf"))
+	{
+		remove_fav(atoi(args[1]));
+	}
 	else
 	{
 		cout << "Nwsh " << paintText("Error", 9) << ": command " << args[0] << " not recognized" << endl;
