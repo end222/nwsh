@@ -17,6 +17,15 @@ void add_fav(const char* fav)
 	fav_number++;
 }
 
+void remove_fav(int number)
+{
+	while(number < fav_number - 1)
+	{
+		strcpy(fav_commands[number], fav_commands[number + 1]);
+		number++;
+	}
+}
+
 void list_all_fav()
 {
 	int i = 0;

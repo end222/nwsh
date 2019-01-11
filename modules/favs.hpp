@@ -13,6 +13,8 @@
 
 void add_fav(const char* fav);
 
+void remove_fav(int number);
+
 void list_all_fav();
 
 void exec_fav(int commandNum, themes appearance, char** path);
