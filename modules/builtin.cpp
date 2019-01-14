@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include "builtin.hpp"
+#include "../modules/history.hpp"
 #include "../modules/colors.hpp"
 #include "../themes/themes.hpp"
 #include "favs.hpp"
@@ -69,6 +70,10 @@ void parseBuiltin(char* line, themes& appearance, char** path)
 	else if(!strcmp(args[0], ":rf"))
 	{
 		remove_fav(atoi(args[1]));
+	}
+	else if(!strcmp(args[0], ":h"))
+	{
+		list_all_hist();
 	}
 	else
 	{

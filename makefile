@@ -1,10 +1,13 @@
 CXX=g++
 
-all: main.cpp favs.o themes.o colors.o parse.o exec.o builtin.o
-	$(CXX) $(CFLAGS) -std=c++11 main.cpp favs.o themes.o colors.o parse.o exec.o builtin.o -o nwsh
+all: main.cpp favs.o themes.o colors.o parse.o exec.o builtin.o history.o
+	$(CXX) $(CFLAGS) -std=c++11 main.cpp favs.o themes.o colors.o parse.o exec.o builtin.o history.o -o nwsh
 
 favs.o: modules/favs.hpp modules/favs.cpp
 	$(CXX) $(CFLAGS) -std=c++11 -c modules/favs.hpp modules/favs.cpp
+
+history.o: modules/history.hpp modules/history.cpp
+	$(CXX) $(CFLAGS) -std=c++11 -c modules/history.hpp modules/history.cpp
 
 themes.o: themes/themes.hpp themes/themes.cpp 
 	$(CXX) $(CFLAGS) -std=c++11 -c themes/themes.hpp themes/themes.cpp 

@@ -15,6 +15,7 @@
 #include <unistd.h>
 #include <sys/wait.h>
 
+#include "modules/history.hpp"
 #include "modules/favs.hpp"
 #include "themes/themes.hpp"
 #include "functions/parse.hpp"
@@ -56,6 +57,7 @@ void read_config()
 	 * Read the favorite commands
 	 */
 	load_favorites();
+	load_hist();
 }
 
 /*
@@ -78,6 +80,7 @@ void command_loop()
 	{
 		appearance.printTheme(system_name, user_name, buffer);
 		cin.getline(line,256);
+		add_hist(line); // Add command to the history
 		parseLine(line, appearance, path);
 	}
 }
