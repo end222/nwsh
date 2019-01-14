@@ -10,7 +10,7 @@
 
 #include "../functions/exec.hpp"
 
-char fav_commands[100][100];
+char fav_commands[100][1000];
 int fav_number = 0;
 
 using namespace std; 
@@ -110,4 +110,25 @@ void write_favorites()
 		file << fav_commands[i] << endl;
 		i++;
 	}
+}
+
+/*
+ * Loads the favorite commands from a file located 
+ * in ~/.config/nwsh/favorites.conf
+ */
+
+void load_favorites()
+{
+	fstream file;
+	string home = exec("echo ~");
+	home.erase(home.length()-1);
+	string favs_location = home + "/.config/nwsh/favorites.conf";
+	file.open(favs_location);
+	int i = 0;
+	for (string line; std::getline(file, line); )
+	{
+		strcpy(fav_commands[i], line.c_str());
+		i++;
+	}
+	fav_number = i;
 }

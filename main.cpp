@@ -50,6 +50,11 @@ void read_config()
 		parseLine(line, appearance, path);
 		config_file.getline(line, 100);
 	}
+
+	/*
+	 * Read the favorite commands
+	 */
+	load_favorites();
 }
 
 void command_loop()
