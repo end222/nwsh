@@ -28,6 +28,7 @@ themes appearance;
 
 /*
  * Read NWSH configuration file, which is located in ~/.nwshrc
+ * and other config files such as favorite commands (~/.config/nwsh/favorites.conf)
  */
 void read_config()
 {
@@ -57,6 +58,11 @@ void read_config()
 	load_favorites();
 }
 
+/*
+ * Execute the main command loop
+ * Stop whenever an "exit" command is executed, such as 
+ * :q, exit or bye
+ */
 void command_loop()
 {
 	char line[256];
