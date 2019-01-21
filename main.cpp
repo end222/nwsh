@@ -73,13 +73,23 @@ void command_loop(char **env)
 	system_name.erase(system_name.length()-1); // Remove end of line from the string
 	user_name.erase(user_name.length()-1);
 
+	bool backslash = false;
 	// Close the shell when exitShell() equals true
 	while (exitShell() == false)
 	{
-		appearance.printTheme(system_name, user_name, buffer);
+		if (!backslash) appearance.printTheme(system_name, user_name, buffer);
 		cin.getline(line,256);
 		add_hist(line); // Add command to the history
-		parseLine(line, appearance, env);
+		if(strchr(line, '\\') != NULL)
+		{
+			cout << "Backslash detected" << endl;
+			backslash = true;
+		}
+		else
+		{
+			backslash = false;
+		}
+		if(!backslash) parseLine(line, appearance, env);
 	}
 }
 
