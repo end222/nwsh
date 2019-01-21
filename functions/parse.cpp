@@ -24,7 +24,7 @@ bool exitShell()
 	return exit_shell;
 }
 
-void parseLine(char* line, themes& appearance, char** envp)
+void parseCommand(char* line, themes& appearance, char** envp)
 {
 	char command[200];
 	strcpy(command, line); // Copy of line, just in case it is needed after having used strtok
@@ -98,4 +98,18 @@ void parseLine(char* line, themes& appearance, char** envp)
 			} while (!WIFEXITED(status) && !WIFSIGNALED(status));
 		}
 	}
+}
+
+void parseLine(char* line, themes& appearance, char** envp)
+{
+	// TODO: parse pipelines and file redirection here
+	if(strchr(line, '|') != NULL)
+	{
+		cout << "Pipeline found but not treated (to be implemented)" << endl;
+	}
+	if(strchr(line, '>') != NULL)
+	{
+		cout << "Redirection to a file found but not treated (to be implemented)" << endl;
+	}
+	parseCommand(line, appearance, envp);
 }

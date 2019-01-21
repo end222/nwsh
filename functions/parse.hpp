@@ -13,6 +13,8 @@ using namespace std;
 
 bool exitShell();
 
+void parseCommand(char* line, themes& appearance, char** envp);
+
 void parseLine(char* line, themes& appearance, char** envp);
 
 #endif
