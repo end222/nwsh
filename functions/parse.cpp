@@ -24,7 +24,7 @@ bool exitShell()
 	return exit_shell;
 }
 
-void parseLine(char* line, themes& appearance, char** path)
+void parseLine(char* line, themes& appearance, char** envp)
 {
 	char command[200];
 	strcpy(command, line); // Copy of line, just in case it is needed after having used strtok
@@ -79,7 +79,7 @@ void parseLine(char* line, themes& appearance, char** path)
 	}
 	else if(args[0][0] == ':')
 	{
-		parseBuiltin(command, appearance, path);
+		parseBuiltin(command, appearance, envp);
 	}
 	else
 	{
@@ -87,7 +87,7 @@ void parseLine(char* line, themes& appearance, char** path)
 		pid_t pid, wait_pid;
 		if ((pid = fork()) == 0) // Child
 		{
-			execvpe(args[0],args,path);
+			execvpe(args[0],args,envp);
 			cout << "Nwsh " << paintText("Error", 9) << ": command " << args[0] << " not recognized" << endl; 
 			exit(0);
 		}

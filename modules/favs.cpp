@@ -73,12 +73,12 @@ void list_all_fav()
  * Executes a favorite command
  * params: commandNum (int): position of the command
  * appearance (themes): themes instance needed if the theme is going to be changed
- * path (char**)
+ * envp (char**)
  *
  * Restrictions:
  * 0 <= commandNum <= fav_number - 1
  */
-void exec_fav(int commandNum, themes appearance, char** path)
+void exec_fav(int commandNum, themes appearance, char** envp)
 {
 	if(commandNum < 0 || commandNum >= fav_number)
 	{
@@ -86,7 +86,7 @@ void exec_fav(int commandNum, themes appearance, char** path)
 	}
 	else
 	{
-		parseLine(fav_commands[commandNum], appearance, path);
+		parseLine(fav_commands[commandNum], appearance, envp);
 	}
 }
 

@@ -10,7 +10,7 @@
 
 using namespace std;
 
-void parseBuiltin(char* line, themes& appearance, char** path)
+void parseBuiltin(char* line, themes& appearance, char** envp)
 {
 	int i = 0;
 	const char s[2] = " ";
@@ -65,7 +65,7 @@ void parseBuiltin(char* line, themes& appearance, char** path)
 	}
 	else if(!strcmp(args[0], ":ef"))
 	{
-		exec_fav(atoi(args[1]), appearance, path);
+		exec_fav(atoi(args[1]), appearance, envp);
 	}
 	else if(!strcmp(args[0], ":rf"))
 	{

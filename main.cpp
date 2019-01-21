@@ -23,15 +23,13 @@
 
 using namespace std;
 
-char *vars[100];
-char *path[100];
 themes appearance;
 
 /*
  * Read NWSH configuration file, which is located in ~/.nwshrc
  * and other config files such as favorite commands (~/.config/nwsh/favorites.conf)
  */
-void read_config()
+void read_config(char **env)
 {
 	char *args[10];
 	char line[100];
@@ -49,7 +47,7 @@ void read_config()
 	 */
 	while (!config_file.eof())
 	{
-		parseLine(line, appearance, path);
+		parseLine(line, appearance, env);
 		config_file.getline(line, 100);
 	}
 
@@ -65,7 +63,7 @@ void read_config()
  * Stop whenever an "exit" command is executed, such as 
  * :q, exit or bye
  */
-void command_loop()
+void command_loop(char **env)
 {
 	char line[256];
 	char buffer[256]; // To store the path of the current directory
@@ -81,11 +79,11 @@ void command_loop()
 		appearance.printTheme(system_name, user_name, buffer);
 		cin.getline(line,256);
 		add_hist(line); // Add command to the history
-		parseLine(line, appearance, path);
+		parseLine(line, appearance, env);
 	}
 }
 
-int main(int argc, char *argv[])
+int main(int argc, char *argv[], char **envp)
 {
 	if (argc > 1)
 	{
@@ -102,7 +100,7 @@ int main(int argc, char *argv[])
 	}
 	else
 	{
-		read_config();
-		command_loop();
+		read_config(envp);
+		command_loop(envp);
 	}
 }

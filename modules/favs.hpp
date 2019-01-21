@@ -17,7 +17,7 @@ void remove_fav(int number);
 
 void list_all_fav();
 
-void exec_fav(int commandNum, themes appearance, char** path);
+void exec_fav(int commandNum, themes appearance, char** envp);
 
 void write_favorites();
 
