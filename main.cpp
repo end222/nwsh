@@ -26,6 +26,23 @@ using namespace std;
 themes appearance;
 
 /*
+ * Removes a character of a string, putting a blank space in its place
+ * Used in backslash treatment
+ */
+void eraseChar(char *array, char charToRemove)
+{
+	int i = 0;
+	while(array[i] != '\n')
+	{
+		if(array[i] == charToRemove)
+		{
+			array[i] = ' ';
+		}
+		i++;
+	}
+}
+
+/*
  * Read NWSH configuration file, which is located in ~/.nwshrc
  * and other config files such as favorite commands (~/.config/nwsh/favorites.conf)
  */
@@ -66,6 +83,7 @@ void read_config(char **env)
 void command_loop(char **env)
 {
 	char line[256];
+	char command[256]; // Line that will be executed, important for commands with backslashes
 	char buffer[256]; // To store the path of the current directory
 
 	string system_name = exec("hostname");
@@ -79,17 +97,30 @@ void command_loop(char **env)
 	{
 		if (!backslash) appearance.printTheme(system_name, user_name, buffer);
 		cin.getline(line,256);
-		add_hist(line); // Add command to the history
+		if(!backslash)
+		{
+			strcpy(command, line);
+		}
+		else
+		{
+			strcat(command, line);
+		}
 		if(strchr(line, '\\') != NULL)
 		{
-			cout << "Backslash detected" << endl;
+			// If a backslash is detected, remove it and put a black space in its place
+			eraseChar(command, '\\');	
 			backslash = true;
 		}
 		else
 		{
+
 			backslash = false;
 		}
-		if(!backslash) parseLine(line, appearance, env);
+		if(!backslash)
+		{
+			add_hist(line); // Add command to the history
+			parseLine(command, appearance, env);
+		}
 	}
 }
 
