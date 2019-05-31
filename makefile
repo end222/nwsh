@@ -1,7 +1,7 @@
 CXX=g++
 
 all: main.cpp favs.o themes.o colors.o parse.o exec.o builtin.o history.o variables.o
-	$(CXX) $(CFLAGS) -std=c++11 main.cpp favs.o themes.o colors.o parse.o exec.o builtin.o history.o -o nwsh
+	$(CXX) $(CFLAGS) -std=c++11 main.cpp favs.o themes.o colors.o parse.o exec.o builtin.o history.o variables.o -o nwsh
 
 favs.o: modules/favs.hpp modules/favs.cpp
 	$(CXX) $(CFLAGS) -std=c++11 -c modules/favs.hpp modules/favs.cpp
@@ -31,6 +31,7 @@ install:
 	sudo cp nwsh /usr/bin/nwsh
 	cp etc/nwshrc ~/.nwshrc
 	mkdir -p ~/.config/nwsh
+	mkdir -p ~/.config/nwsh/variables
 	touch ~/.config/nwsh/favorites.conf
 
 clean:

@@ -1,3 +1,6 @@
+#include <string>
+#include <cstring>
+
 #ifndef VARIABLES_HPP
 #define VARIABLES_HPP
 
@@ -13,6 +16,9 @@
  * They are stored using a tree scheme, like a filesystem. Then, a leaf can
  * be accesed by ?notleafnode/leaf
  */
-void readVar(char* variable);
+
+using namespace std;
+
+string readVar(char* variable);
 
 #endif

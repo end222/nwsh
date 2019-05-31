@@ -14,6 +14,7 @@
 #include "../themes/themes.hpp"
 #include "../modules/colors.hpp"
 #include "../modules/builtin.hpp"
+#include "../modules/variables.hpp"
 
 using namespace std;
 
@@ -40,8 +41,10 @@ void parseCommand(char* line, themes& appearance, char** envp)
 		i++;
 	}
 	args[i] = NULL;
+
 	// Line is commented
 	if(args[0][0] == '#');
+
 	// Change the theme of the shell
 	else if(!strcmp(args[0], "theme"))
 	{
@@ -110,6 +113,47 @@ void parseLine(char* line, themes& appearance, char** envp)
 	if(strchr(line, '>') != NULL)
 	{
 		cout << "Redirection to a file found but not treated (to be implemented)" << endl;
+	}
+	if(strchr(line, '?') != NULL)
+	{
+		char command[200];
+		strcpy(command, line); // Copy of line, just in case it is needed after having used strtok
+		int i = 0;
+		const char s[2] = " ";
+		char* token;
+		char* args[10];
+		token = strtok(line, s);
+		while (token != NULL)
+		{
+			args[i] = token;
+			token = strtok(NULL, s);
+			i++;
+		}
+		args[i] = NULL;
+
+		i = 0;
+		while(args[i] != NULL)
+		{
+			if (args[i][0] == '?')
+			{
+				string var = readVar(args[i]);
+				strcpy(args[i], var.c_str());
+			}
+			i++;
+		}
+
+		i = 0;
+		string newline = "";
+		while(args[i] != NULL)
+		{
+			newline += string(args[i]);
+			newline += " ";
+			i++;
+		}
+
+		// Write the new line in "line"
+		strcpy(line, newline.c_str());
+
 	}
 	parseCommand(line, appearance, envp);
 }

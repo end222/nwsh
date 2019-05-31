@@ -1,6 +1,9 @@
 #include <string>
 #include <cstring>
 #include <iostream>
+#include <dirent.h>
+#include "../functions/exec.hpp"
+#include "variables.hpp"
 
 using namespace std;
 
@@ -17,7 +20,19 @@ using namespace std;
  * be accesed by ?notleafnode/leaf
  */
 
-void readVar(char* variable)
+string readVar(char* variable)
 {
+	char command[100];
 
+	string home = exec("echo ~");
+	home.erase(home.length()-1);
+	string var_location = home + "/.config/nwsh/variables/";
+	// Command to get the content of the variable
+	string varStr = string(variable);
+	varStr.erase(0,1);
+	string command_str = "cat " + var_location + varStr;
+	strcpy(command, command_str.c_str());	
+	string value = exec(command);
+	value.erase(value.length()-1); 
+	return value;
 }
