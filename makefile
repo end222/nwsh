@@ -1,6 +1,6 @@
 CXX=g++
 
-all: main.cpp favs.o themes.o colors.o parse.o exec.o builtin.o history.o
+all: main.cpp favs.o themes.o colors.o parse.o exec.o builtin.o history.o variables.o
 	$(CXX) $(CFLAGS) -std=c++11 main.cpp favs.o themes.o colors.o parse.o exec.o builtin.o history.o -o nwsh
 
 favs.o: modules/favs.hpp modules/favs.cpp
@@ -23,6 +23,9 @@ exec.o: functions/exec.hpp functions/exec.cpp
 
 builtin.o: modules/builtin.hpp modules/builtin.cpp
 	$(CXX) $(CFLAGS) -std=c++11 -c modules/builtin.hpp modules/builtin.cpp
+
+variables.o: modules/variables.hpp modules/variables.cpp
+	$(CXX) $(CFLAGS) -std=c++11 -c modules/variables.hpp modules/variables.cpp
 
 install:
 	sudo cp nwsh /usr/bin/nwsh

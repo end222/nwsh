@@ -100,6 +100,9 @@ void command_loop(char **env)
 	while (exitShell() == false)
 	{
 		if (!backslash) appearance.printTheme(system_name, user_name, directory);
+		
+		// Create a loop to detect arrow key pressed
+
 		cin.getline(line,256);
 		if(!backslash)
 		{
