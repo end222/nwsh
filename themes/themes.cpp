@@ -19,7 +19,10 @@ void themes::printTheme(string hostname, string username, string directory)
 	switch(theme_format)
 	{
 		case 0:
-			cout << paintText(username, color[0]) << paintText("@", color[1]) << paintText(hostname, color[2]) << " " << paintText(directory, color[3]) << paintText("> ", color[4]) << flush;
+			cout << paintText(username, color[0])
+				<< paintText("@", color[1]) << paintText(hostname, color[2]) 
+				<< " " << paintText(directory, color[3]) 
+				<< paintText(" > ", color[4]) << flush;
 			break;
 		case 1:
 			cout << paintText("> ", color[0]) << flush;
@@ -41,7 +44,10 @@ void themes::printTheme(string hostname, string username, string directory)
 					shortenedDir = token;
 					token = strtok(NULL, s);
 				}
-				cout << paintText(username, color[0]) << paintText(" at ", color[1]) << paintText(hostname, color[2]) << " " << paintText(shortenedDir, color[3]) << paintText(" > ", color[4]) << flush;
+				cout << paintText(username, color[0]) << paintText(" at ", color[1])
+					<< paintText(hostname, color[2]) << " " 
+					<< paintText(shortenedDir, color[3]) 
+					<< paintText(" > ", color[4]) << flush;
 				break;
 			}
 

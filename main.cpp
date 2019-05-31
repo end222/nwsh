@@ -88,14 +88,18 @@ void command_loop(char **env)
 
 	string system_name = exec("hostname");
 	string user_name = exec("whoami");
-	system_name.erase(system_name.length()-1); // Remove end of line from the string
+	string directory = exec("pwd");
+	
+	// Remove end of line from the string
+	system_name.erase(system_name.length()-1); 
 	user_name.erase(user_name.length()-1);
+	directory.erase(directory.length()-1);
 
 	bool backslash = false;
 	// Close the shell when exitShell() equals true
 	while (exitShell() == false)
 	{
-		if (!backslash) appearance.printTheme(system_name, user_name, buffer);
+		if (!backslash) appearance.printTheme(system_name, user_name, directory);
 		cin.getline(line,256);
 		if(!backslash)
 		{
