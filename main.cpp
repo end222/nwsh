@@ -99,6 +99,10 @@ void command_loop(char **env)
 	// Close the shell when exitShell() equals true
 	while (exitShell() == false)
 	{
+		// Read directory again beacuse it could've changed after executing a 'cd'
+		string directory = exec("pwd");
+		directory.erase(directory.length()-1);
+
 		if (!backslash) appearance.printTheme(system_name, user_name, directory);
 		
 		// Create a loop to detect arrow key pressed
