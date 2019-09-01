@@ -14,6 +14,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <sys/wait.h>
+#include <termios.h>
 
 #include "modules/history.hpp"
 #include "modules/favs.hpp"
@@ -24,6 +25,22 @@
 using namespace std;
 
 themes appearance;
+
+/*
+ * Get a character and return its ascii code
+ */
+int gchar()
+{
+	struct termios oldt,newt;
+	int ch;
+	tcgetattr( STDIN_FILENO, &oldt );
+	newt = oldt;
+	newt.c_lflag &= ~( ICANON | ECHO );
+	tcsetattr( STDIN_FILENO, TCSANOW, &newt );
+	ch = getchar();
+	tcsetattr( STDIN_FILENO, TCSANOW, &oldt );
+	return ch;
+}
 
 /*
  * Removes a character of a string, putting a blank space in its place
@@ -86,6 +103,10 @@ void command_loop(char **env)
 	char command[256]; // Line that will be executed, important for commands with backslashes
 	char buffer[256]; // To store the path of the current directory
 
+	// Variables used in text input
+	int ch,c;
+	int i_line; // Iterate over line to insert the characters
+
 	string system_name = exec("hostname");
 	string user_name = exec("whoami");
 	string directory = exec("pwd");
@@ -105,9 +126,29 @@ void command_loop(char **env)
 
 		if (!backslash) appearance.printTheme(system_name, user_name, directory);
 		
-		// Create a loop to detect arrow key pressed
+		// Total rewrite of text input in order to detect arrow keys
+		// Old version is down here, commented
+		/*
+		 * cin.getline(line,256);
+		 */
 
-		cin.getline(line,256);
+		i_line = 0;
+		c = ' '; // Avoid infinite loop because c is always '\n'
+		while( c != '\n')
+		{
+			switch( c = gchar() )
+			{
+				case '\n':
+					ch = c;
+					break;
+				default:
+					ch = c;                 
+					line[i_line] = ch;
+					i_line++;
+					break;
+			}
+			cout << char(ch) << flush;
+		}
 		if(!backslash)
 		{
 			strcpy(command, line);
