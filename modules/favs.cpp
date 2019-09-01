@@ -86,7 +86,9 @@ void exec_fav(int commandNum, themes appearance, char** envp)
 	}
 	else
 	{
-		parseLine(fav_commands[commandNum], appearance, envp);
+		char command[256];
+		strcpy(command, fav_commands[commandNum]);
+		parseLine(command, appearance, envp);
 	}
 }
 
