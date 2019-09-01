@@ -49,7 +49,7 @@ int gchar()
 void eraseChar(char *array, char charToRemove)
 {
 	int i = 0;
-	while(array[i] != '\n')
+	while(array[i] != '\0')
 	{
 		if(array[i] == charToRemove)
 		{
@@ -133,13 +133,14 @@ void command_loop(char **env)
 		 */
 
 		i_line = 0;
-		c = ' '; // Avoid infinite loop because c is always '\n'
+		c = ' '; // Avoid infinite loop because c is always '\n' after the first iteration
 		while( c != '\n')
 		{
 			switch( c = gchar() )
 			{
 				case '\n':
 					ch = c;
+					line[i_line] = '\0';
 					break;
 				default:
 					ch = c;                 
@@ -165,7 +166,6 @@ void command_loop(char **env)
 		}
 		else
 		{
-
 			backslash = false;
 		}
 		if(!backslash)
