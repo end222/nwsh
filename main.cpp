@@ -117,6 +117,7 @@ void command_loop(char **env)
 	directory.erase(directory.length()-1);
 
 	bool backslash = false;
+	bool lastChar;
 	// Close the shell when exitShell() equals true
 	while (exitShell() == false)
 	{
@@ -133,6 +134,7 @@ void command_loop(char **env)
 		 */
 
 		i_line = 0;
+		lastChar = true; // Used to stop deleting when the last char of the shell is reached
 		c = ' '; // Avoid infinite loop because c is always '\n' after the first iteration
 		while( c != '\n')
 		{
@@ -140,22 +142,33 @@ void command_loop(char **env)
 			{
 				case 127:
 					// Backspace is detected
-					i_line--; // Remove the last character
-					cout << "\b " << flush; // "\b \b" is equal to the normal behaviour
-								// of the backspace
-					ch = '\b';
+					if(i_line == 0)
+					{
+						lastChar = true;
+					}
+					if (!lastChar)
+					{
+						i_line--; // Remove the last character
+						cout << "\b " << flush; // "\b \b" is equal to the normal behaviour
+									// of the backspace
+						ch = '\b';
+					}
 					break;
 				case '\n':
 					ch = c;
 					line[i_line] = '\0';
 					break;
 				default:
+					lastChar = false;
 					ch = c;                 
 					line[i_line] = ch;
 					i_line++;
 					break;
 			}
-			cout << char(ch) << flush;
+			if (!lastChar)
+			{
+				cout << char(ch) << flush;
+			}
 		}
 		if(!backslash)
 		{
@@ -175,10 +188,14 @@ void command_loop(char **env)
 		{
 			backslash = false;
 		}
-		if(!backslash)
+		if(!backslash && strcmp(line,"") != 0)
 		{
 			add_hist(line); // Add command to the history
 			parseLine(command, appearance, env);
+		}
+		if(strcmp(line,"") == 0)
+		{
+			cout << endl;
 		}
 	}
 }
