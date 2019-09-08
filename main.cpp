@@ -138,6 +138,13 @@ void command_loop(char **env)
 		{
 			switch( c = gchar() )
 			{
+				case 127:
+					// Backspace is detected
+					i_line--; // Remove the last character
+					cout << "\b " << flush; // "\b \b" is equal to the normal behaviour
+								// of the backspace
+					ch = '\b';
+					break;
 				case '\n':
 					ch = c;
 					line[i_line] = '\0';
