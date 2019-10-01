@@ -118,6 +118,7 @@ void command_loop(char **env)
 
 	bool backslash = false;
 	bool lastChar;
+	bool arrow;
 	// Close the shell when exitShell() equals true
 	while (exitShell() == false)
 	{
@@ -138,8 +139,39 @@ void command_loop(char **env)
 		c = ' '; // Avoid infinite loop because c is always '\n' after the first iteration
 		while( c != '\n')
 		{
-			switch( c = gchar() )
+			c = gchar();
+			switch(c)
 			{
+				case 27:
+					// Do not print when an arrow is selected
+					ch = '\0';
+					// This is does not give any extra information
+					c = gchar();
+					// This one tells the direction of the arrow pressed
+					c = gchar();
+					switch(c)
+					{
+						case 65:
+							// Up
+							while (i_line != 0)
+							{
+								cout << "\b \b" << flush;
+								i_line--;
+							}
+							break;
+						case 66:
+							// Down
+							break;
+						case 67:
+							// Right
+							break;
+						case 68:
+							// Left
+							break;
+						default:
+							break;
+					}
+					break;
 				case 127:
 					// Backspace is detected
 					if(i_line == 0)
@@ -150,7 +182,7 @@ void command_loop(char **env)
 					{
 						i_line--; // Remove the last character
 						cout << "\b " << flush; // "\b \b" is equal to the normal behaviour
-									// of the backspace
+						// of the backspace
 						ch = '\b';
 					}
 					break;
