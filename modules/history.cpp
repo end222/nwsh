@@ -10,6 +10,8 @@
 
 #include "../functions/exec.hpp"
 
+hist_entry* first = NULL;
+hist_entry* last = NULL;
 char history[100][1000];
 int hist_number = 0;
 
@@ -33,12 +35,15 @@ void add_hist(const char* command)
  */
 void list_all_hist()
 {
+	hist_entry* aux;
+	aux = last;
 	int i = 0;
 	cout << "History: " << endl;
 	cout << "-------- " << endl;
-	while (i < hist_number)
+	while (aux != NULL)
 	{
-		cout << i << " - "  << history[i] << endl;
+		cout << i << " - "  << aux->command << endl;
+		aux = aux->former;
 		i++;
 	}
 }
@@ -73,14 +78,40 @@ void write_hist()
 
 void load_hist()
 {
+	hist_entry* aux;
 	fstream file;
 	string home = exec("echo ~");
+	string line;
 	home.erase(home.length()-1);
 	string hist_location = home + "/.config/nwsh/history";
 	file.open(hist_location);
+
 	int i = 0;
 	for (string line; std::getline(file, line); )
 	{
+		if (first == NULL)
+		{
+			first->command = line;
+			first->next = NULL;
+			first->former = NULL;
+			last->command = line;
+			last->next = NULL;
+			last->former = NULL;
+		}
+		else if (first->next == NULL)
+		{
+			first->command = line;
+			first->next = last;
+			last->former = first;
+		}
+		else
+		{
+			aux = new hist_entry;
+			aux->command = line;
+			aux->next = first;
+			aux->former = NULL;
+			first = aux;
+		}
 		strcpy(history[i], line.c_str());
 		i++;
 	}

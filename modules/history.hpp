@@ -11,6 +11,15 @@
 #include "builtin.hpp"
 #include "../functions/parse.hpp"
 
+#include <string>
+
+struct hist_entry
+{
+	string command;
+	hist_entry* next;
+	hist_entry* former;
+};
+
 void add_hist(const char* fav);
 
 void list_all_hist();
