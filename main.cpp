@@ -106,10 +106,12 @@ void command_loop(char **env)
 	// Variables used in text input
 	int ch,c;
 	int i_line; // Iterate over line to insert the characters
+	int h_entry = -1;
 
 	string system_name = exec("hostname");
 	string user_name = exec("whoami");
 	string directory = exec("pwd");
+	string hcommand;
 	
 	// Remove end of line from the string
 	system_name.erase(system_name.length()-1); 
@@ -128,12 +130,6 @@ void command_loop(char **env)
 
 		if (!backslash) appearance.printTheme(system_name, user_name, directory);
 		
-		// Total rewrite of text input in order to detect arrow keys
-		// Old version is down here, commented
-		/*
-		 * cin.getline(line,256);
-		 */
-
 		i_line = 0;
 		lastChar = true; // Used to stop deleting when the last char of the shell is reached
 		c = ' '; // Avoid infinite loop because c is always '\n' after the first iteration
@@ -145,7 +141,7 @@ void command_loop(char **env)
 				case 27:
 					// Do not print when an arrow is selected
 					ch = '\0';
-					// This is does not give any extra information
+					// This char does not give any extra information
 					c = gchar();
 					// This one tells the direction of the arrow pressed
 					c = gchar();
@@ -158,9 +154,37 @@ void command_loop(char **env)
 								cout << "\b \b" << flush;
 								i_line--;
 							}
+							if (h_entry == -1)
+							{
+								h_entry = 0;
+							}
+							else
+							{
+								h_entry++;
+							}
+							hcommand = get_hist_command(h_entry);
+							cout << hcommand << flush;
+							strcpy(line, hcommand.c_str());
+							i_line = hcommand.length();
 							break;
 						case 66:
 							// Down
+							while (i_line != 0)
+							{
+								cout << "\b \b" << flush;
+								i_line--;
+							}
+							if (h_entry > -1)
+							{
+								h_entry--;
+							}
+							if (h_entry != -1)
+							{
+								hcommand = get_hist_command(h_entry);
+								cout << hcommand << flush;
+								strcpy(line, hcommand.c_str());
+								i_line = hcommand.length();
+							}
 							break;
 						case 67:
 							// Right
@@ -187,7 +211,9 @@ void command_loop(char **env)
 					}
 					break;
 				case '\n':
-					ch = c;
+					h_entry = -1;
+					ch = '\0';
+					cout << endl;
 					line[i_line] = '\0';
 					break;
 				default:

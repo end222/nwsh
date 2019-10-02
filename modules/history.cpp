@@ -10,8 +10,8 @@
 
 #include "../functions/exec.hpp"
 
-hist_entry* first = NULL;
-hist_entry* last = NULL;
+hist_entry* first = new hist_entry;
+hist_entry* last = new hist_entry;
 char history[100][1000];
 int hist_number = 0;
 
@@ -24,7 +24,12 @@ using namespace std;
 
 void add_hist(const char* command)
 {
-	strcpy(history[hist_number], command);
+	hist_entry* aux = new hist_entry;
+	aux->command = command;
+	aux->former = NULL;
+	aux->next = first;
+	first->former = aux;
+	first = aux;
 	hist_number++;
 	write_hist();
 }
@@ -57,17 +62,18 @@ void list_all_hist()
 void write_hist()
 {
 	fstream file;
+	hist_entry* hist_pointer = last;
 	string home = exec("echo ~");
 	home.erase(home.length()-1);
 	string hist_location = home + "/.config/nwsh/history";
+
 	// Open the file this way to erase its content
 	// because it will be written again from scratch with the updated history
 	file.open(hist_location, std::ofstream::out | std::ofstream::trunc);
-	int i = 0;
-	while(i < hist_number)
+	while(hist_pointer != NULL)
 	{
-		file << history[i] << endl;
-		i++;
+		file << hist_pointer->command << endl;
+		hist_pointer = hist_pointer->former;
 	}
 }
 
@@ -86,10 +92,9 @@ void load_hist()
 	string hist_location = home + "/.config/nwsh/history";
 	file.open(hist_location);
 
-	int i = 0;
 	for (string line; std::getline(file, line); )
 	{
-		if (first == NULL)
+		if (hist_number == 0)
 		{
 			first->command = line;
 			first->next = NULL;
@@ -110,10 +115,20 @@ void load_hist()
 			aux->command = line;
 			aux->next = first;
 			aux->former = NULL;
+			first->former = aux;
 			first = aux;
 		}
-		strcpy(history[i], line.c_str());
-		i++;
+		hist_number++;
 	}
-	hist_number = i;
+}
+
+string get_hist_command(int index)
+{
+	hist_entry* aux = first;
+	while(index > 0)
+	{
+		aux = aux->next;
+		index--;
+	}
+	return aux->command;
 }

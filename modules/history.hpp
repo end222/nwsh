@@ -27,4 +27,6 @@ void list_all_hist();
 void write_hist();
 
 void load_hist();
+
+string get_hist_command(int index);
 #endif
