@@ -42,8 +42,6 @@ void add_fav(const char* fav)
 		lastf = aux;
 	}
 	fav_number++;
-	cout << fav_number << endl;
-	cout << firstf->command << endl;
 	write_favorites();
 }
 
