@@ -181,7 +181,6 @@ void load_favorites()
 	file.open(favs_location);
 	for (string line; std::getline(file, line); )
 	{
-		cout << "load" << endl;
 		if (fav_number == 0)
 		{
 			firstf->command = line;

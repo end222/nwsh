@@ -158,7 +158,20 @@ void command_loop(char **env)
 							h_entry++;
 							if (h_entry >= 0)
 							{
+								if(!check_history_index(h_entry))
+								{
+									h_entry--;
+								}
 								hcommand = get_hist_command(h_entry);
+								cout << hcommand << flush;
+								strcpy(line, hcommand.c_str());
+								i_line = hcommand.length();
+							}
+
+							if (h_entry < -1)
+							{
+								int index = abs(h_entry+2);
+								hcommand = get_fav_command(index);
 								cout << hcommand << flush;
 								strcpy(line, hcommand.c_str());
 								i_line = hcommand.length();
@@ -178,32 +191,23 @@ void command_loop(char **env)
 							h_entry--;
 							if (h_entry > -1)
 							{
-								if(check_history_index(h_entry))
-								{
-									hcommand = get_hist_command(h_entry);
-									cout << hcommand << flush;
-									strcpy(line, hcommand.c_str());
-									i_line = hcommand.length();
-								}
-								else
-								{
-									h_entry++;
-								}
+								hcommand = get_hist_command(h_entry);
+								cout << hcommand << flush;
+								strcpy(line, hcommand.c_str());
+								i_line = hcommand.length();
 							}
 							else if (h_entry < -1)
 							{
 								int index = abs(h_entry+2);
-								if(check_history_index(index))
-								{
-									hcommand = get_fav_command(index);
-									cout << hcommand << flush;
-									strcpy(line, hcommand.c_str());
-									i_line = hcommand.length();
-								}
-								else
+								if(!check_fav_index(index))
 								{
 									h_entry++;
+									index = abs(h_entry+2);
 								}
+								hcommand = get_fav_command(index);
+								cout << hcommand << flush;
+								strcpy(line, hcommand.c_str());
+								i_line = hcommand.length();
 							}
 
 							break;
