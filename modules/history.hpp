@@ -29,4 +29,6 @@ void write_hist();
 void load_hist();
 
 string get_hist_command(int index);
+
+bool check_history_index(int index);
 #endif

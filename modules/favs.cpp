@@ -10,6 +10,8 @@
 
 #include "../functions/exec.hpp"
 
+fav_entry* firstf = new fav_entry;
+fav_entry* lastf = new fav_entry;
 char fav_commands[100][1000];
 int fav_number = 0;
 
@@ -21,9 +23,27 @@ using namespace std;
  */
 
 void add_fav(const char* fav)
-{
-	strcpy(fav_commands[fav_number], fav);
+{	
+	fav_entry* aux = new fav_entry;
+	aux->command = fav;
+
+	if(fav_number == 0)
+	{
+		firstf = aux;
+		lastf = aux;
+		aux->next = NULL;
+		aux->former = NULL;
+	}
+	else
+	{
+		aux->former = lastf;
+		aux->next = NULL;
+		lastf->next = aux;
+		lastf = aux;
+	}
 	fav_number++;
+	cout << fav_number << endl;
+	cout << firstf->command << endl;
 	write_favorites();
 }
 
@@ -33,7 +53,7 @@ void add_fav(const char* fav)
  * params: number (int): position of the command to be removed
  *
  * Restrictions:
- * 0 =< number <= fav_number - 1
+ * 0 <= number <= fav_number - 1
  */
 void remove_fav(int number)
 {
@@ -43,12 +63,32 @@ void remove_fav(int number)
 	}
 	else
 	{
-		while(number < fav_number)
+		cout << number <<endl;
+		fav_entry* aux = firstf;
+		if(number == 0)
 		{
-			strcpy(fav_commands[number-1], fav_commands[number]);
-			number++;
+			firstf = firstf->next;
+			firstf->former = NULL;
 		}
-		fav_number--;
+		else if(number == fav_number-1)
+		{
+			lastf = lastf->former;
+			lastf->next = NULL;
+		}
+		else
+		{
+			// Using 1 instead of 0 to stop
+			// on the one before the one we
+			// want to remove
+			while(number > 1)
+			{
+				aux = aux->next;
+				number--;
+			}
+			aux->next->next->former = aux;
+			aux->next = aux->next->next;
+		}
+		fav_number--;	
 	}
 }
 
@@ -58,12 +98,15 @@ void remove_fav(int number)
  */
 void list_all_fav()
 {
+	fav_entry* aux;
+	aux = firstf;
 	int i = 0;
 	cout << "Favorite commands: " << endl;
 	cout << "------------------ " << endl;
-	while (i < fav_number)
+	while (aux != NULL)
 	{
-		cout << i << " - "  << fav_commands[i] << endl;
+		cout << i << " - "  << aux->command << endl;
+		aux = aux->next;
 		i++;
 	}
 }
@@ -86,8 +129,16 @@ void exec_fav(int commandNum, themes appearance, char** envp)
 	}
 	else
 	{
+		fav_entry* aux;
+		aux = firstf;
+		while(commandNum > 0)
+		{
+			aux = aux->next;
+			commandNum--;
+		}
+
 		char command[256];
-		strcpy(command, fav_commands[commandNum]);
+		strcpy(command, aux->command.c_str());
 		parseLine(command, appearance, envp);
 	}
 }
@@ -106,11 +157,12 @@ void write_favorites()
 	// Open the file this way to erase its content
 	// because it will be written again from scratch with the updated favorites
 	file.open(favs_location, std::ofstream::out | std::ofstream::trunc);
-	int i = 0;
-	while(i < fav_number)
+	fav_entry* aux;
+	aux = firstf;
+	while(aux != NULL)
 	{
-		file << fav_commands[i] << endl;
-		i++;
+		file << aux->command << endl;
+		aux = aux->next;
 	}
 }
 
@@ -121,16 +173,55 @@ void write_favorites()
 
 void load_favorites()
 {
+	fav_entry* aux;
 	fstream file;
 	string home = exec("echo ~");
 	home.erase(home.length()-1);
 	string favs_location = home + "/.config/nwsh/favorites.conf";
 	file.open(favs_location);
-	int i = 0;
 	for (string line; std::getline(file, line); )
 	{
-		strcpy(fav_commands[i], line.c_str());
-		i++;
+		cout << "load" << endl;
+		if (fav_number == 0)
+		{
+			firstf->command = line;
+			firstf->next = NULL;
+			firstf->former = NULL;
+			lastf->command = line;
+			lastf->next = NULL;
+			lastf->former = NULL;
+		}
+		else if (firstf->next == NULL)
+		{
+			lastf->command = line;
+			lastf->former = firstf;
+			firstf->next = lastf;
+		}
+		else
+		{
+			aux = new fav_entry;
+			aux->command = line;
+			aux->former = lastf;
+			aux->next = NULL;
+			lastf->next = aux;
+			lastf = aux;
+		}
+		fav_number++;
 	}
-	fav_number = i;
+}
+
+string get_fav_command(int index)
+{
+	fav_entry* aux = firstf;
+	while(index > 0)
+	{
+		aux = aux->next;
+		index--;
+	}
+	return aux->command;
+}
+
+bool check_fav_index(int index)
+{
+	return (index >= 0 && index <= (fav_number - 1));
 }

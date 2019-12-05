@@ -12,7 +12,6 @@
 
 hist_entry* first = new hist_entry;
 hist_entry* last = new hist_entry;
-char history[100][1000];
 int hist_number = 0;
 
 using namespace std; 
@@ -131,4 +130,9 @@ string get_hist_command(int index)
 		index--;
 	}
 	return aux->command;
+}
+
+bool check_history_index(int index)
+{
+	return (index >= 0 && index <= (hist_number - 1));
 }

@@ -9,6 +9,7 @@
 #include <array>
 #include <fstream>
 #include <cstring>
+#include <cmath>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -154,18 +155,14 @@ void command_loop(char **env)
 								cout << "\b \b" << flush;
 								i_line--;
 							}
-							if (h_entry == -1)
+							h_entry++;
+							if (h_entry >= 0)
 							{
-								h_entry = 0;
+								hcommand = get_hist_command(h_entry);
+								cout << hcommand << flush;
+								strcpy(line, hcommand.c_str());
+								i_line = hcommand.length();
 							}
-							else
-							{
-								h_entry++;
-							}
-							hcommand = get_hist_command(h_entry);
-							cout << hcommand << flush;
-							strcpy(line, hcommand.c_str());
-							i_line = hcommand.length();
 							break;
 						case 66:
 							// Down
@@ -174,17 +171,41 @@ void command_loop(char **env)
 								cout << "\b \b" << flush;
 								i_line--;
 							}
+							// h_entry is always decreased, it will be used
+							// for indexing the history from 0 to n
+							// and for indexing the favorites from -2 to -n
+							// -1 is the actual command that is being written
+							h_entry--;
 							if (h_entry > -1)
 							{
-								h_entry--;
+								if(check_history_index(h_entry))
+								{
+									hcommand = get_hist_command(h_entry);
+									cout << hcommand << flush;
+									strcpy(line, hcommand.c_str());
+									i_line = hcommand.length();
+								}
+								else
+								{
+									h_entry++;
+								}
 							}
-							if (h_entry != -1)
+							else if (h_entry < -1)
 							{
-								hcommand = get_hist_command(h_entry);
-								cout << hcommand << flush;
-								strcpy(line, hcommand.c_str());
-								i_line = hcommand.length();
+								int index = abs(h_entry+2);
+								if(check_history_index(index))
+								{
+									hcommand = get_fav_command(index);
+									cout << hcommand << flush;
+									strcpy(line, hcommand.c_str());
+									i_line = hcommand.length();
+								}
+								else
+								{
+									h_entry++;
+								}
 							}
+
 							break;
 						case 67:
 							// Right
